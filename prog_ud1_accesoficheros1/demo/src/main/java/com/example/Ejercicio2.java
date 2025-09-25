@@ -16,12 +16,15 @@ public class Ejercicio2 {
         hello.crearDirectorio("/etc/carpeta");
         hello.crearDirectorio("temporal");
 
-        // Prueba borrado
+        // Prueba borrado basica
         System.out.println("\nBorrado");
         hello.borrarFichero("/etc/xattr.conf");
         hello.borrarFichero("exito.txt");
         hello.borrarDirectorio("/etc");
         hello.borrarDirectorio("temporal");
+
+        // Prueba borrado tocha
+        hello.borrarDirectorio("tocho");
 
         System.out.println("\nListar");
         hello.listarDirectorios(".");
@@ -88,22 +91,30 @@ class ManejoFicheros {
         }
     }
     public void borrarDirectorio(String ruta){
+        File borrarDirectorio = new File(ruta);
+        borrarDirectorioR(borrarDirectorio);
+    }
+    private boolean borrarDirectorioR(File carpeta){
+        boolean devolver;
         try {
-            File crearDirectorio = new File(ruta);
-            boolean exito = crearDirectorio.delete();
-            if (exito) {
-                System.out.println("Borrado con exito");
+            if (carpeta.isDirectory()) {
+                String[] listado = carpeta.list();
+                for (int i = 0; i < listado.length; i++) {
+                    borrarDirectorio(carpeta.getPath()+"/"+listado[i]);
+                }
             }
-            else {
-                System.out.println("No se ha podido borrar puede tener contenido o insuficientes permisos");
-            }
+            devolver = carpeta.delete();
         }
         catch (SecurityException e) {
-            System.out.println("No se ha podido crear el carpeta. Error conocido no tiene suficientes permisos");
+            devolver = false;
+            System.out.println("No ha tenido suficientes permisos para borrar: "+carpeta.getName());
         }
         catch (Exception e){
-            System.out.println("Causa desconocida");
+            devolver=false;
+            System.out.println("Ha habido algun tipo de error desconocido al intentar borrar "+carpeta.getName());
         }
+        return devolver;
+
     }
     public void listarDirectorios(String ruta){
         try {
