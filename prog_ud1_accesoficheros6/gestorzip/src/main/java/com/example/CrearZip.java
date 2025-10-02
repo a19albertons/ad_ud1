@@ -14,12 +14,33 @@ public class CrearZip {
         String[] ficheros=ruta.list();
         FileOutputStream fichero = new FileOutputStream(ruta+"/directorio.zip");
         ZipOutputStream ficheroZip = new ZipOutputStream(fichero);
-        
+        File temporal;
         for (int i = 0; i < ficheros.length; i++) {
-            añadirFichero(ruta.getPath()+"/"+ficheros[i], ficheroZip);
+            temporal = new File(ruta.getPath()+"/"+ficheros[i]);
+            // System.out.println(ficheros[i]);
+            if (temporal.isDirectory()) {
+                comprimirDirectorioR(ruta.getName()+"/"+ficheros[i]+"/", fichero,ficheroZip);
+            } else {
+                añadirFichero(ruta.getPath()+"/"+ficheros[i], ficheroZip,"");
+            }
         }
+        System.out.println("Puede encontrar su fichero en: "+ruta.getPath()+"/directorio.zip");
         ficheroZip.close();
         fichero.close();
+    }
+    private void comprimirDirectorioR(String directorio,FileOutputStream original, ZipOutputStream zipOriginal) throws FileNotFoundException, IOException {
+        File ruta = new File(directorio);
+        String[] ficheros=ruta.list();
+        File temporal;
+        for (int i = 0; i < ficheros.length; i++) {
+            temporal = new File(ruta.getPath()+"/"+ficheros[i]);
+            // System.out.println(ficheros[i]);
+            if (temporal.isDirectory()) {
+                comprimirDirectorioR(directorio+ruta.getName()+"/",original,zipOriginal);
+            } else {
+                añadirFichero(ruta.getPath()+"/"+ficheros[i], zipOriginal,ruta.getName()+"/");
+            }
+        }
     }
 
     public void comprimir(String ruta, List<String> ficheros) throws FileNotFoundException,IOException{
@@ -27,18 +48,18 @@ public class CrearZip {
         ZipOutputStream ficheroZip = new ZipOutputStream(fichero);
         
         for (int i = 0; i<ficheros.size();i++) {
-            añadirFichero(ficheros.get(i),ficheroZip);
+            añadirFichero(ficheros.get(i),ficheroZip,"");
 
         }
         ficheroZip.close();
         fichero.close();
 
     }
-    private void añadirFichero(String fichero, ZipOutputStream ficheroZip) throws FileNotFoundException,IOException{
+    private void añadirFichero(String fichero, ZipOutputStream ficheroZip, String subcarpeta) throws FileNotFoundException,IOException{
         File ficheroFile= new File(fichero);
         FileInputStream ficheroInput = new FileInputStream(ficheroFile);
         
-        ZipEntry zipEntry = new ZipEntry(ficheroFile.getName());
+        ZipEntry zipEntry = new ZipEntry("/"+subcarpeta+ficheroFile.getName());
         ficheroZip.putNextEntry(zipEntry);
 
         byte[] buffer = new byte[1024];

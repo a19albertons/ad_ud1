@@ -19,13 +19,13 @@ public class Ejercicio1
         try {
             // Pedir toda la mierda y procesada basica
             Scanner sc = new Scanner(System.in);
+            System.out.println("autonota partimos automaticamente de la subcarpeta almacen dentro del proyecto");
             System.out.println("nombre del zip a crear (no olvide el .zip): ");
             String ruta = "./almacen/"+sc.next();
             System.out.println("Cuantos fichero quiere añadir debe ser un entero");
             int cantidad = sc.nextInt();
             List<String> ficheros = new ArrayList<>();
-            for (int i = 0; i<cantidad;i++) {
-                System.out.println("nombre fichero: "+(i+1));
+            for (int i = 0; i<cantidad;i++) {             System.out.println("nombre fichero: "+(i+1));
                 ficheros.add("./almacen/"+sc.next());
             }
 

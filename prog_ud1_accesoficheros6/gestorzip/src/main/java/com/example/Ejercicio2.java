@@ -67,6 +67,10 @@ class ExtraerZip {
             System.out.println("Extrayendo: "+entrada.getName());
 
             File nuevoFichero= new File(ruta, entrada.getName());
+            File nuevaCarpeta= nuevoFichero.getParentFile();
+            if (!nuevaCarpeta.exists()) {
+                nuevaCarpeta.mkdir();
+            }
 
             FileOutputStream salida = new FileOutputStream(nuevoFichero);
             byte[] buffer = new byte[1024];
