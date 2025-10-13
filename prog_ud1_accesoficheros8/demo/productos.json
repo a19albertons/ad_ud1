@@ -1,0 +1,30 @@
+[
+  {
+    "nombre": "Ordenador gama media",
+    "prezo": 1000.0,
+    "disponible": true,
+    "categorias": [
+      "Informatica",
+      "Sobremesa",
+      "gama media"
+    ],
+    "stock": 10,
+    "descripcion": "PC gama media con un i5 10º gen y gtx 1630",
+    "proveedor": {
+      "nombre": "Intel",
+      "telefono": "555665548"
+    }
+  },
+  {
+    "nombre": "gpu 4GB vram",
+    "prezo": 400.0,
+    "disponible": false,
+    "categorias": [
+      "gpu",
+      "AMD",
+      "gaming"
+    ],
+    "stock": 0,
+    "descripcion": "gpu amd 4GB de vram pensada para el juego en 2025"
+  }
+]
